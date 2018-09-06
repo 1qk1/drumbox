@@ -1,8 +1,8 @@
-const socket = io.connect('drumbox.now.sh');
+const socket = io.connect('192.168.1.8:4000');
 
 const drumbuttons = document.querySelectorAll('.drumbtn');
 
-const numToButton = {
+const keyToNum = {
   a: 0,
   s: 1,
   d: 2,
@@ -23,31 +23,35 @@ const map = {
 };
 
 const sounds = {};
+//a: sound
+//b: sound
 
 const playSound = id => {
   sounds[id].play();
-  drumbuttons[numToButton[id]].classList.add('playing');
+  drumbuttons[keyToNum[id]].classList.add('playing');
 }
 
 for (let i in map) {
-  const id = Number(drumbuttons[numToButton[i]].getAttribute('data-key'));
+  // i = a
+  // id = 0
+  const id = Number(drumbuttons[keyToNum[i]].getAttribute('data-key'));
   sounds[i] = new Howl({src: ['sounds/' + map[i] + '.wav']});
-  drumbuttons[numToButton[i]].addEventListener('mousedown', () => {
-    playSound(Object.keys(numToButton)[id]);
-    socket.emit('drumdown', id);
+  drumbuttons[id].addEventListener('mousedown', e => {
+    playSound(i);
+    socket.emit('drumdown', i);
   });
-  drumbuttons[numToButton[i]].addEventListener('mouseup', () => {
+  drumbuttons[id].addEventListener('mouseup', () => {
     drumbuttons[id].classList.remove('playing');
-    socket.emit('drumup', id);
+    socket.emit('drumup', i);
   });
-  drumbuttons[numToButton[i]].addEventListener('mouseout', () => {
+  drumbuttons[id].addEventListener('mouseout', () => {
     drumbuttons[id].classList.remove('playing');
-    socket.emit('drumup', id);
+    socket.emit('drumup', i);
   });
 }
 
 document.addEventListener('keydown', e => {
-  if (numToButton[e.key] === undefined || e.repeat) return;
+  if (keyToNum[e.key] === undefined || e.repeat) return;
    if (sounds[e.key] !== undefined){
     playSound(e.key);
     socket.emit('drumdown', e.key);
@@ -55,9 +59,9 @@ document.addEventListener('keydown', e => {
 });
 
 document.addEventListener('keyup', e => {
-  if (numToButton[e.key] === undefined || e.repeat) return;
-  if (sounds[e.key] !== undefined || drumbuttons[numToButton[e.key]].classList.contains('playing')){
-    drumbuttons[numToButton[e.key]].classList.remove('playing');
+  if (keyToNum[e.key] === undefined || e.repeat) return;
+  if (sounds[e.key] !== undefined || drumbuttons[keyToNum[e.key]].classList.contains('playing')){
+    drumbuttons[keyToNum[e.key]].classList.remove('playing');
     socket.emit('drumup', e.key);
   }
 });
@@ -67,5 +71,37 @@ socket.on('drumdown', key => {
 });
 
 socket.on('drumup', key => {
-  drumbuttons[numToButton[key]].classList.remove('playing');
+  drumbuttons[keyToNum[key]].classList.remove('playing');
+});
+
+socket.on('clients', ({global}) => {
+  document.getElementsByClassName('clients')[0].innerHTML = 
+    `<h2>There ${global > 1 ? 'are' : 'is'} ${global > 0 ? global : 'no'} connected player${global > 1 ? 's' : ''}!<h2>`;
+});
+
+const roombuttons = document.querySelectorAll('div.roombtn');
+
+const removeActiveRoomClass = () => {
+  for (let button of roombuttons){
+    if (button.classList.contains('activeroom')){
+      button.classList.remove('activeroom');
+    }
+  }
+}
+
+for (let roombutton of roombuttons) {
+  roombutton.addEventListener('click', () => {
+    socket.emit('room', roombutton.getAttribute('data-room'));
+    removeActiveRoomClass();
+    roombutton.classList.add('activeroom');
+  });
+}
+
+const customRoomInput = document.querySelector('.roominput');
+
+customRoomInput.addEventListener('blur', e => {
+  socket.emit('room', roombutton.getAttribute('data-room'));
+  removeActiveRoomClass();
+  customRoomInput.classList.add('activeroom');
+  socket.emit('room', e.target.value);
 });
