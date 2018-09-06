@@ -11,10 +11,24 @@ const server = app.listen(port, process.env.IP, () => {
 const io = socketio(server);
 
 io.on('connect', socket => {
+  let activeRoom = 'general';
+  socket.join('general');
+
+  socket.on('room', join => {
+    socket.leave(activeRoom);
+    socket.join(join);
+    activeRoom = join;
+  });
+
+  io.emit('clients', {global: io.engine.clientsCount });
+  socket.on('disconnect', () => {
+    io.emit('clients', {global: io.engine.clientsCount });
+  });
+
   socket.on('drumdown', key => {
-    socket.broadcast.emit('drumdown', key);
+    socket.to(activeRoom).emit('drumdown', key);
   });
   socket.on('drumup', key => {
-    socket.broadcast.emit('drumup', key);
+    socket.to(activeRoom).emit('drumup', key);
   });
 });
