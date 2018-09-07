@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, user-scalable=no">
-  <title>Drumbox</title>
+  <title>Drumbox - Online Multiplayer Drums</title>
   <link rel="stylesheet" media="screen" href="styles.css">
 </head>
 <body>
@@ -12,23 +12,27 @@
       <h1>Play drums with people!</h1>
       <h2>Choose a room:</h2>
     </header>
-      <div class="container">
-        <div data-room='general' class="roombtn activeroom"><h2>General</h2></div>
-        <div data-room='rock' class="roombtn"><h2>Rock</h2></div>
-        <div data-room='metal' class="roombtn"><h2>Metal</h2></div>
-        <div data-room='pop' class="roombtn"><h2>Pop</h2></div>
-        <input type="text" class="roombtn roominput" placeholder="Custom">
-      </div>
-      <div class="container">
-        <div class="drumbtn" data-key='0'><h2>A</h2><p>Kick</p></div>
-        <div class="drumbtn" data-key='1'><h2>S</h2><p>Snare</p></div>
-        <div class="drumbtn" data-key='2'><h2>D</h2><p>Snare 2</p></div>
-        <div class="drumbtn" data-key='3'><h2>F</h2><p>Hi-Hat</p></div>
-        <div class="drumbtn" data-key='4'><h2>G</h2><p>Rim</p></div>
-        <div class="drumbtn" data-key='5'><h2>H</h2><p>Clap</p></div>
-        <div class="drumbtn" data-key='6'><h2>J</h2><p>Open Hat</p></div>
-      </div>
-  <div class="clients"></div>
+    <div class="container">
+      <div data-room='general' class="roombtn activeroom"><h2>General</h2></div>
+      <div data-room='rock' class="roombtn"><h2>Rock</h2></div>
+      <div data-room='metal' class="roombtn"><h2>Metal</h2></div>
+      <div data-room='pop' class="roombtn"><h2>Pop</h2></div>
+      <input type="text" class="roombtn roominput" placeholder="Custom">
+    </div>
+    <div class="container">
+      <div class="drumbtn" data-key='0'><h2>A</h2><p>Kick</p></div>
+      <div class="drumbtn" data-key='1'><h2>S</h2><p>Snare</p></div>
+      <div class="drumbtn" data-key='2'><h2>D</h2><p>Snare 2</p></div>
+      <div class="drumbtn" data-key='3'><h2>F</h2><p>Hi-Hat</p></div>
+      <div class="drumbtn" data-key='4'><h2>G</h2><p>Rim</p></div>
+      <div class="drumbtn" data-key='5'><h2>H</h2><p>Clap</p></div>
+      <div class="drumbtn" data-key='6'><h2>J</h2><p>Open Hat</p></div>
+    </div>
+    <div class="clients"></div>
+    <footer>
+      <a href="https://github.com/1qk1/drumbox" target="_blank">Github Repo</a>
+      <a href="https://twitter.com/qktweets" target="_blank">Follow me on twitter</a>
+    </footer>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.15/howler.min.js'></script>
   <script src='./main.js'></script>
