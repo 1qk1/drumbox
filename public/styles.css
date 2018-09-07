@@ -2,8 +2,9 @@
 
 body, html {
   height: 100%;
-  overflow: hidden;
-  margin: 0;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  margin: 0; 
 }
 
 .backgroundimage{
@@ -13,7 +14,7 @@ body, html {
   height: 100%;
   width: 100%;
   z-index: -1;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
 }
@@ -52,6 +53,7 @@ header * {
   height: 100px;
   flex: 0 1 120px;
   margin: 0 4px;
+  margin-bottom: 0.5rem;
   border: 5px solid #000;
   border-radius: 4px;
   cursor: pointer;
@@ -78,6 +80,7 @@ h2 {
   border: none;
   flex: 1 1 100px;
   margin: 0 0.5rem;
+  margin-bottom: 0.5rem;
   border-radius: 0.25rem;
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0.5);
@@ -115,6 +118,19 @@ h2 {
 }
 
 .clients h2 {
-  font-weight: normal;
+  font-weight: 600;
   font-size: 2em;
+}
+
+@media (max-width: 767px){
+  .container {
+    flex-wrap: wrap;
+    overflow: hidden;
+  }
+  .drumbtn {
+    flex: 1 1 40%;
+  }
+  .drumbtn:first-child {
+    flex-basis: 100%;
+  }
 }
