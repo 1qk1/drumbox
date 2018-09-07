@@ -82,10 +82,9 @@ socket.on('clients', ({global}) => {
 const roombuttons = document.querySelectorAll('div.roombtn');
 
 const removeActiveRoomClass = () => {
-  for (let button of roombuttons){
-    if (button.classList.contains('activeroom')){
-      button.classList.remove('activeroom');
-    }
+  const activeButtons = document.querySelectorAll('.activeroom');
+  for (let activeButton of activeButtons){
+    activeButton.classList.remove('activeroom');
   }
 }
 
@@ -100,8 +99,9 @@ for (let roombutton of roombuttons) {
 const customRoomInput = document.querySelector('.roominput');
 
 customRoomInput.addEventListener('blur', e => {
-  socket.emit('room', roombutton.getAttribute('data-room'));
-  removeActiveRoomClass();
-  customRoomInput.classList.add('activeroom');
-  socket.emit('room', e.target.value);
+  if (e.target.value !== '') {
+    removeActiveRoomClass();
+    customRoomInput.classList.add('activeroom');
+    socket.emit('room', e.target.value);
+  }
 });
