@@ -7,3 +7,4 @@ Made with:
 - Express
 - Socket.io
 - Howler.js
+- Vanilla JS
