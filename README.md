@@ -2,8 +2,8 @@
 
 - Try it on: http://drumbox.now.sh
 
-Made with
-============
+Made with:
+
 - Express
 - Socket.io
 - Howler.js
